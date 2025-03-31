@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Error</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #prankButton {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+
+        #content {
+            display: none; /* Versteckt den Fake Blue Screen bis zum Klick */
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+    <script>
+        function goFullscreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+
+            // Button ausblenden und den Fake Blue Screen anzeigen
+            document.getElementById("prankButton").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }
+
+        // ALT + F4 und andere Schließen-Tasten blockieren
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "F4" && event.altKey) {
+                event.preventDefault();
+                alert("Systemsteuerung gesperrt.");
+            }
+            if (event.ctrlKey && event.key === "w") { // STRG + W blockieren
+                event.preventDefault();
+                alert("Schließen nicht erlaubt.");
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Bestätige, dass du kein Roboter bist!</h1>
+    <p>Drücke den Button unten, um fortzufahren.</p>
+    <button id="prankButton" onclick="goFullscreen()">Ich bin kein Roboter</button>
+
+    <!-- Fake Blue Screen Inhalt -->
+    <div id="content">
+        <iframe src="https://fakeupdate.net/win10ue/bsod.html"></iframe>
+    </div>
+</body>
+</html>
